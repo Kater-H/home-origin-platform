@@ -15,8 +15,23 @@ from src.routes.riders import riders_bp
 app = Flask(__name__, static_folder=os.path.join(os.path.dirname(__file__), 'static'))
 app.config['SECRET_KEY'] = 'asdf#FGSgvasgf$5$WGT'
 
-# Enable CORS for all routes
-CORS(app, origins="*")
+# Get the list of allowed origins from an environment variable, if available.
+# Otherwise, use a hardcoded list for development.
+allowed_origins_str = os.environ.get("CORS_ORIGINS")
+if allowed_origins_str:
+    allowed_origins = allowed_origins_str.split(',')
+else:
+    allowed_origins = [
+        "https://home-origin-admin-app.onrender.com",
+        "https://home-origin-vendor-app.onrender.com",
+        "https://home-origin-buyer-app.onrender.com",
+        "https://home-origin-rider-app.onrender.com",
+        "https://home-origin-ocr-api.onrender.com",
+        "http://localhost:3000"
+    ]
+
+# Enable CORS for all routes with the specified origins
+CORS(app, origins=allowed_origins)
 
 app.register_blueprint(user_bp, url_prefix='/api')
 app.register_blueprint(products_bp, url_prefix='/api')
