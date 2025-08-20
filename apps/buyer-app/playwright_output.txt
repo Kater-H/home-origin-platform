@@ -1,0 +1,4 @@
+
+Running 2 tests using 1 worker
+
+  ✘  1 tests/integration/buyer.spec.js:5:1 › buyer app loads and smart shopper input is visible (5.5s)
